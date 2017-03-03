@@ -43,6 +43,11 @@ const todos = (state = [], action) => {
             return state.map(t =>
                 todo(t, action)
             );
+        case 'RECEIVE_TODOS':
+            return [
+                ...state,
+                ...action.result
+            ];
         default:
             return state;
     }
