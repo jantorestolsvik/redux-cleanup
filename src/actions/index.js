@@ -1,3 +1,5 @@
+import * as api from '../api/index';
+
 let nextTodoId = 0;
 export const addTodo = text => ({
     type: 'ADD_TODO',
@@ -15,7 +17,11 @@ export const toggleTodo = id => ({
     id
 });
 
-export const receiveTodos = result => ({
+const receiveTodos = result => ({
     type: 'RECEIVE_TODOS',
     result
 });
+
+export const fetchTodos = () => api
+    .fetchTodos('all')
+    .then(todos => receiveTodos(todos));

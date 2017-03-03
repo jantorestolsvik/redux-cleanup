@@ -2,6 +2,14 @@ import { createStore, applyMiddleware } from 'redux';
 import todoApp from './reducers/index';
 
 const middleware = [
+    ({dispatch, getState}) => next => action => {
+        if (typeof action.then === "function") {
+            return action.then((finishedAction) => {
+                dispatch(finishedAction);
+            });
+        }
+        return next(action);
+    },
     ({getState}) => next => action => {
         console.group(action.type);
         console.log("skal dispatche", getState());
