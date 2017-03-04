@@ -7,9 +7,18 @@ const mapStateToProps = (state) => ({
     todos: getVisibleTodos(state)
 });
 
-const mapDispatchToProps = {
-    onTodoClick: toggleTodo
+const bindActionCreators = (actionCreators, dispatch) => {
+    return Object.keys(actionCreators).reduce((newActionCreators, key) => {
+        newActionCreators[key] = (...args) => {
+            dispatch(actionCreators[key](...args));
+        };
+        return newActionCreators;
+    }, {});
 };
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    onTodoClick: toggleTodo
+}, dispatch);
 
 const VisibleTodoList = connect(
     mapStateToProps,
