@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import todoApp from './reducers/index';
 
 const middleware = [
@@ -21,5 +21,11 @@ const middleware = [
     }
 ];
 
-export const configureStore = () => createStore(todoApp, applyMiddleware(...middleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const enhancer = composeEnhancers(
+    applyMiddleware(...middleware)
+);
+
+export const configureStore = () => createStore(todoApp, enhancer);
 export default configureStore;
